@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Movie Ticket Booking API
+  description: Lets customers find showtimes, book seats, and cancel bookings at a movie theater.
+paths:
+  /showtimes:
+    get:
+      summary: List showtimes for a movie
+      parameters:
+        - name: movie
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Showtimes found.
+        '400':
+          description: Invalid query parameters.
+
+  /bookings:
+    post:
+      summary: Book seats for a showtime
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [showtimeId, seats]
+              properties:
+                showtimeId:
+                  type: string
+                seats:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Booking created.
+        '409':
+          description: Seats unavailable.
+
+  /bookings/{bookingId}:
+    delete:
+      summary: Cancel a booking
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Booking cancelled.
+        '403':
+          description: Caller does not own this booking.
+        '404':
+          description: Booking not found.
