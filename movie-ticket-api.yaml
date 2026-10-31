@@ -4,28 +4,20 @@ info:
   title: Movie Ticket Booking API
   description: Lets customers find showtimes, book seats, and cancel bookings at a movie theater.
 paths:
-  /showtimes:
+ /bookings:
     get:
-      summary: List showtimes for a movie
+      summary: List bookings for a showtime
       parameters:
-        - name: movie
+        - name: showtimeId
           in: query
           required: true
           schema:
             type: string
-        - name: date
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
       responses:
         '200':
-          description: Showtimes found.
+          description: Bookings found.
         '400':
           description: Invalid query parameters.
-
-  /bookings:
     post:
       summary: Book seats for a showtime
       requestBody:
